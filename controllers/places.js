@@ -1,9 +1,26 @@
-// controllers/places.js
 const router = require('express').Router();
 const places = require('../models/places.js');
+const methodOverride = require('method-override');
 
+// Middleware for method override
+router.use(methodOverride('_method'));
+
+// PUT to update a place
+router.put('/:id', (req, res) => {
+  let id = Number(req.params.id);
+  if (isNaN(id)) {
+    res.render('error404');
+  } else if (!places[id]) {
+    res.render('error404');
+  } else {
+    places[id] = req.body;
+    res.redirect(`/places/${id}`);
+  }
+});
+
+// Other routes...
 router.post('/', (req, res) => {
-
+  
   if (!req.body.pic) {
     req.body.pic = 'http://placekitten.com/400/400';
   }
@@ -26,30 +43,38 @@ router.get('/new', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  let id = Number(req.params.id)
+  let id = Number(req.params.id);
   if (isNaN(id)) {
-    res.render('error404')
+    res.render('error404');
+  } else if (!places[id]) {
+    res.render('error404');
+  } else {
+    res.render('places/show', { place: places[id], id });
   }
-  else if (!places[id]) {
-    res.render('error404')
+});
+
+
+router.get('/:id/edit', (req, res) => {
+  let id = Number(req.params.id);
+  if (isNaN(id)) {
+    res.render('error404');
+  } else if (!places[id]) {
+    res.render('error404');
+  } else {
+    res.render('places/edit', { place: places[id], id }); // Include the id here
   }
-  else {
-    res.render('places/show', { place: places[id], id })
-  }
-})
+});
 
 router.delete('/:id', (req, res) => {
-  let id = Number(req.params.id)
+  let id = Number(req.params.id);
   if (isNaN(id)) {
-    res.render('error404')
+    res.render('error404');
+  } else if (!places[id]) {
+    res.render('error404');
+  } else {
+    places.splice(id, 1);
+    res.redirect('/places');
   }
-  else if (!places[id]) {
-    res.render('error404')
-  }
-  else {
-    places.splice(id, 1)
-    res.redirect('/places')
-  }
-})
+});
 
 module.exports = router;
