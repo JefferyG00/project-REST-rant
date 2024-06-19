@@ -5,16 +5,17 @@ const methodOverride = require('method-override');
 // Middleware for method override
 router.use(methodOverride('_method'));
 
-// PUT to update a place
+
 router.put('/:id', (req, res) => {
   let id = Number(req.params.id);
   if (isNaN(id)) {
-    res.render('error404');
+      res.render('error404');
   } else if (!places[id]) {
-    res.render('error404');
+      res.render('error404');
   } else {
-    places[id] = req.body;
-    res.redirect(`/places/${id}`);
+      // Update the place with new data
+      places[id] = req.body;
+      res.redirect(`/places/${id}`); // Redirect to the updated place page
   }
 });
 

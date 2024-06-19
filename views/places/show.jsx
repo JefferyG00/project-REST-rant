@@ -1,5 +1,5 @@
-const React = require('react')
-const Def = require('./default')
+const React = require('react');
+const Def = require('./default');
 
 function show(data) {
     return (
@@ -21,11 +21,11 @@ function show(data) {
                     <p>No comments yet!</p>
                 </div>
                 <a href={`/places/${data.id}/edit`} className="btn btn-warning">Edit</a>
-                    <form method="POST" action={`/places/${data.id}?_method=DELETE`}>
-                        <button type="submit" className="btn btn-danger">
-                            Delete
-                        </button>
-                    </form>
+                <form method="POST" action={`/places/${data.id}?_method=DELETE`}>
+                    <button type="submit" className="btn btn-danger">
+                        Delete
+                    </button>
+                </form>
                 <a href="/places">
                     <button className="btn-primary">Back to Places</button>
                 </a>
@@ -34,5 +34,6 @@ function show(data) {
     );
 }
 
-module.exports = show
+module.exports = show;
+
 
